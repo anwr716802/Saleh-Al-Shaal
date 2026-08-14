@@ -67,5 +67,23 @@
     const open=e.target.closest('[data-open-memory]'); if(open) { document.querySelector('#memorySection')?.scrollIntoView({behavior:'smooth'}); }
   });
   setupMemoryForm();
-  publicApi().then(d=>{ if(d.ok) render(d); if(new URLSearchParams(location.search).get('remember')==='1') document.querySelector('#memorySection')?.scrollIntoView({behavior:'smooth'}); }).catch(err=>{console.error(err);});
+publicApi().then(d => {
+  if (!d || !d.profile) {
+    throw new Error('بيانات الموقع غير صحيحة');
+  }
+
+  render(d);
+
+  if (new URLSearchParams(location.search).get('remember') === '1') {
+    document.querySelector('#memorySection')?.scrollIntoView({
+      behavior: 'smooth'
+    });
+  }
+}).catch(err => {
+  console.error(err);
+  const errorBox = document.querySelector('#loadingError');
+  if (errorBox) {
+    errorBox.textContent = 'تعذر تحميل البيانات حاليًا.';
+  }
+});
 })();
