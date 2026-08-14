@@ -6,8 +6,12 @@ exports.handler=async()=>{
   const api=process.env.APPS_SCRIPT_URL;
   if(!api) return {statusCode:500,headers:{'content-type':'text/html; charset=utf-8'},body:'APPS_SCRIPT_URL is not configured'};
   try{
-    const r=await fetch(api+'?action=readPublic'); const d=await r.json();
-    if(!d.ok) throw new Error(d.error||'API error');
+    const r = await fetch(api + '?action=readPublic');
+const d = await r.json();
+
+if (!d || !d.profile) {
+  throw new Error('بيانات الموقع غير صحيحة');
+}
     const p=d.profile||{};
     const timeline=(d.timeline||[]).map(x=>`<article class="timeline-item"><div class="dot"></div><div><h3>${esc(x.title)}</h3><p>${esc(x.description)}</p></div></article>`).join('')||empty('لم تُضف محطات بعد.');
     const achievements=(d.achievements||[]).map(x=>`<article class="card"><h3>${esc(x.title)}</h3><p>${esc(x.description)}</p>${x.date?`<small>${esc(x.date)}</small>`:''}</article>`).join('')||empty('لم تُضف الأعمال والمواقف بعد.');
