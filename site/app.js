@@ -81,9 +81,5 @@ publicApi().then(d => {
   }
 }).catch(err => {
   console.error(err);
-  const errorBox = document.querySelector('#loadingError');
-  if (errorBox) {
-    errorBox.textContent = 'تعذر تحميل البيانات حاليًا.';
-  }
 });
 })();
