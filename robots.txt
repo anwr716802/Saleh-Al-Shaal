@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Sitemap: PASTE_SITE_URL_HERE/sitemap.xml
